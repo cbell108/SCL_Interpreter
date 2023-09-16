@@ -1,6 +1,8 @@
 # SCL_Interpreter
 CPL Group Projects
 
+Google Docs Report_1 Link: https://docs.google.com/document/d/1-XZuHQikIStp0eLV1MfMUs5bGoc7beH59H42F7bObk0/edit?usp=sharing
+
 Deliverable 1 Requirements:
 
 The task at hand is to develop an interpreter for a subset of the SCL language. SCL is an 
