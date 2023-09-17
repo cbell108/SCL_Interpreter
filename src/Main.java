@@ -10,7 +10,7 @@ public class Main{
     }//END MAIN
     private static void getGrammar(){
         //Get file
-        String filePath = "res/Modules_3_5_7_Project Resources (Copy)/scl_grammar.txt";
+        String filePath = "SCL_Interpreter/res/Modules_3_5_7_Project Resources (Copy)/scl_grammar.txt";
 
         //Key: keyword, Values: list of legal arguments
         Map<String, ArrayList<String>> grammarDict = new HashMap<>();
@@ -56,13 +56,13 @@ public class Main{
             } //END while(gScanner.hasNext())
             gScanner.close();
         } catch(FileNotFoundException e){ System.out.println("File not found at " + filePath); }
-        /*     Uncomment this to test getGrammar()
+        //   Uncomment this to test getGrammar()
         for(Map.Entry<String, ArrayList<String>> entry : grammarDict.entrySet()) {
             System.out.println("Key: " + entry.getKey());
             for(String value : entry.getValue()) {
                System.out.println("\t" + value);
             }
         }
-        */
+
     }//END getGrammar()
 }//END CLASS
