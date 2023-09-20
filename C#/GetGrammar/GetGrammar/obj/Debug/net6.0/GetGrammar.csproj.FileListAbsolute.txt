@@ -1,14 +1,29 @@
-C:\Users\carde\Documents\Fall 2023\CS 4308 Concepts of Prog Langs\ProjectInVSC#\GetGrammar\GetGrammar\obj\Debug\net6.0\GetGrammar.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\carde\Documents\Fall 2023\CS 4308 Concepts of Prog Langs\ProjectInVSC#\GetGrammar\GetGrammar\obj\Debug\net6.0\GetGrammar.AssemblyInfoInputs.cache
-C:\Users\carde\Documents\Fall 2023\CS 4308 Concepts of Prog Langs\ProjectInVSC#\GetGrammar\GetGrammar\obj\Debug\net6.0\GetGrammar.AssemblyInfo.cs
-C:\Users\carde\Documents\Fall 2023\CS 4308 Concepts of Prog Langs\ProjectInVSC#\GetGrammar\GetGrammar\obj\Debug\net6.0\GetGrammar.csproj.CoreCompileInputs.cache
-C:\Users\carde\Documents\Fall 2023\CS 4308 Concepts of Prog Langs\ProjectInVSC#\GetGrammar\GetGrammar\bin\Debug\net6.0\GetGrammar.exe
-C:\Users\carde\Documents\Fall 2023\CS 4308 Concepts of Prog Langs\ProjectInVSC#\GetGrammar\GetGrammar\bin\Debug\net6.0\GetGrammar.deps.json
-C:\Users\carde\Documents\Fall 2023\CS 4308 Concepts of Prog Langs\ProjectInVSC#\GetGrammar\GetGrammar\bin\Debug\net6.0\GetGrammar.runtimeconfig.json
-C:\Users\carde\Documents\Fall 2023\CS 4308 Concepts of Prog Langs\ProjectInVSC#\GetGrammar\GetGrammar\bin\Debug\net6.0\GetGrammar.dll
-C:\Users\carde\Documents\Fall 2023\CS 4308 Concepts of Prog Langs\ProjectInVSC#\GetGrammar\GetGrammar\bin\Debug\net6.0\GetGrammar.pdb
-C:\Users\carde\Documents\Fall 2023\CS 4308 Concepts of Prog Langs\ProjectInVSC#\GetGrammar\GetGrammar\obj\Debug\net6.0\GetGrammar.dll
-C:\Users\carde\Documents\Fall 2023\CS 4308 Concepts of Prog Langs\ProjectInVSC#\GetGrammar\GetGrammar\obj\Debug\net6.0\refint\GetGrammar.dll
-C:\Users\carde\Documents\Fall 2023\CS 4308 Concepts of Prog Langs\ProjectInVSC#\GetGrammar\GetGrammar\obj\Debug\net6.0\GetGrammar.pdb
-C:\Users\carde\Documents\Fall 2023\CS 4308 Concepts of Prog Langs\ProjectInVSC#\GetGrammar\GetGrammar\obj\Debug\net6.0\GetGrammar.genruntimeconfig.cache
-C:\Users\carde\Documents\Fall 2023\CS 4308 Concepts of Prog Langs\ProjectInVSC#\GetGrammar\GetGrammar\obj\Debug\net6.0\ref\GetGrammar.dll
+C:/Users/carde/Documents/Fall 2023/CS 4308 Concepts of Prog Langs/ProjectInVSC#/GetGrammar/GetGrammar/obj/Debug/net6.0/GetGrammar.GeneratedMSBuildEditorConfig.editorconfig
+C:/Users/carde/Documents/Fall 2023/CS 4308 Concepts of Prog Langs/ProjectInVSC#/GetGrammar/GetGrammar/obj/Debug/net6.0/GetGrammar.AssemblyInfoInputs.cache
+C:/Users/carde/Documents/Fall 2023/CS 4308 Concepts of Prog Langs/ProjectInVSC#/GetGrammar/GetGrammar/obj/Debug/net6.0/GetGrammar.AssemblyInfo.cs
+C:/Users/carde/Documents/Fall 2023/CS 4308 Concepts of Prog Langs/ProjectInVSC#/GetGrammar/GetGrammar/obj/Debug/net6.0/GetGrammar.csproj.CoreCompileInputs.cache
+C:/Users/carde/Documents/Fall 2023/CS 4308 Concepts of Prog Langs/ProjectInVSC#/GetGrammar/GetGrammar/bin/Debug/net6.0/GetGrammar.exe
+C:/Users/carde/Documents/Fall 2023/CS 4308 Concepts of Prog Langs/ProjectInVSC#/GetGrammar/GetGrammar/bin/Debug/net6.0/GetGrammar.deps.json
+C:/Users/carde/Documents/Fall 2023/CS 4308 Concepts of Prog Langs/ProjectInVSC#/GetGrammar/GetGrammar/bin/Debug/net6.0/GetGrammar.runtimeconfig.json
+C:/Users/carde/Documents/Fall 2023/CS 4308 Concepts of Prog Langs/ProjectInVSC#/GetGrammar/GetGrammar/bin/Debug/net6.0/GetGrammar.dll
+C:/Users/carde/Documents/Fall 2023/CS 4308 Concepts of Prog Langs/ProjectInVSC#/GetGrammar/GetGrammar/bin/Debug/net6.0/GetGrammar.pdb
+C:/Users/carde/Documents/Fall 2023/CS 4308 Concepts of Prog Langs/ProjectInVSC#/GetGrammar/GetGrammar/obj/Debug/net6.0/GetGrammar.dll
+C:/Users/carde/Documents/Fall 2023/CS 4308 Concepts of Prog Langs/ProjectInVSC#/GetGrammar/GetGrammar/obj/Debug/net6.0/refint/GetGrammar.dll
+C:/Users/carde/Documents/Fall 2023/CS 4308 Concepts of Prog Langs/ProjectInVSC#/GetGrammar/GetGrammar/obj/Debug/net6.0/GetGrammar.pdb
+C:/Users/carde/Documents/Fall 2023/CS 4308 Concepts of Prog Langs/ProjectInVSC#/GetGrammar/GetGrammar/obj/Debug/net6.0/GetGrammar.genruntimeconfig.cache
+C:/Users/carde/Documents/Fall 2023/CS 4308 Concepts of Prog Langs/ProjectInVSC#/GetGrammar/GetGrammar/obj/Debug/net6.0/ref/GetGrammar.dll
+/Users/morgothbauglir/RiderProjects/SCL_Interpreter/C#/GetGrammar/GetGrammar/bin/Debug/net6.0/GetGrammar
+/Users/morgothbauglir/RiderProjects/SCL_Interpreter/C#/GetGrammar/GetGrammar/bin/Debug/net6.0/GetGrammar.deps.json
+/Users/morgothbauglir/RiderProjects/SCL_Interpreter/C#/GetGrammar/GetGrammar/bin/Debug/net6.0/GetGrammar.runtimeconfig.json
+/Users/morgothbauglir/RiderProjects/SCL_Interpreter/C#/GetGrammar/GetGrammar/bin/Debug/net6.0/GetGrammar.dll
+/Users/morgothbauglir/RiderProjects/SCL_Interpreter/C#/GetGrammar/GetGrammar/bin/Debug/net6.0/GetGrammar.pdb
+/Users/morgothbauglir/RiderProjects/SCL_Interpreter/C#/GetGrammar/GetGrammar/obj/Debug/net6.0/GetGrammar.csproj.AssemblyReference.cache
+/Users/morgothbauglir/RiderProjects/SCL_Interpreter/C#/GetGrammar/GetGrammar/obj/Debug/net6.0/GetGrammar.GeneratedMSBuildEditorConfig.editorconfig
+/Users/morgothbauglir/RiderProjects/SCL_Interpreter/C#/GetGrammar/GetGrammar/obj/Debug/net6.0/GetGrammar.AssemblyInfoInputs.cache
+/Users/morgothbauglir/RiderProjects/SCL_Interpreter/C#/GetGrammar/GetGrammar/obj/Debug/net6.0/GetGrammar.AssemblyInfo.cs
+/Users/morgothbauglir/RiderProjects/SCL_Interpreter/C#/GetGrammar/GetGrammar/obj/Debug/net6.0/GetGrammar.csproj.CoreCompileInputs.cache
+/Users/morgothbauglir/RiderProjects/SCL_Interpreter/C#/GetGrammar/GetGrammar/obj/Debug/net6.0/GetGrammar.dll
+/Users/morgothbauglir/RiderProjects/SCL_Interpreter/C#/GetGrammar/GetGrammar/obj/Debug/net6.0/refint/GetGrammar.dll
+/Users/morgothbauglir/RiderProjects/SCL_Interpreter/C#/GetGrammar/GetGrammar/obj/Debug/net6.0/GetGrammar.pdb
+/Users/morgothbauglir/RiderProjects/SCL_Interpreter/C#/GetGrammar/GetGrammar/obj/Debug/net6.0/GetGrammar.genruntimeconfig.cache
+/Users/morgothbauglir/RiderProjects/SCL_Interpreter/C#/GetGrammar/GetGrammar/obj/Debug/net6.0/ref/GetGrammar.dll

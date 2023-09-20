@@ -13,8 +13,10 @@ public class MainClass
     private static void GetGrammar()
     {
         //Get file
-        String filePath = "C:\\Users\\carde\\Documents\\Fall 2023\\CS 4308 Concepts of Prog Langs\\Deliv 1 Repo\\SCL_Interpreter\\res\\Modules_3_5_7_Project Resources (Copy)\\scl_grammar.txt";
-
+        //String filePath = "C:\\Users\\carde\\Documents\\Fall 2023\\CS 4308 Concepts of Prog Langs\\Deliv 1 Repo\\SCL_Interpreter\\res\\Modules_3_5_7_Project Resources (Copy)\\scl_grammar.txt";
+        //String filePath = "/Users/morgothbauglir/RiderProjects/SCL_Interpreter/C#/GetGrammar/GetGrammar/scl_grammar.txt";
+        String filePath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent + "/scl_grammar.txt";
+        
         //Key: keyword, Values: list of legal arguments
         Dictionary<String, List<String>> grammarDict = new Dictionary<String, List<String>>();
 
