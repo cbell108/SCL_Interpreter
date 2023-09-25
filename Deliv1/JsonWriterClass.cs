@@ -1,15 +1,30 @@
-﻿using System;
+﻿/*
+ * Kennesaw State University
+ * College of Computer and Software Engineering
+ * Department of Computer Science
+ * CS 4308, Concepts of Programming Languages, Section W02
+ * Project 1st Deliverable
+ * Connor Bell, Dylan Carder, Sebastian Utz, Kevin Vu
+ * Program: JsonWriteClass.cs
+ * September 24, 2023
+*/
+
+using System;
 using System.IO;
 using System.Collections.Generic;
 
-//JsonWriterClass Class
+// JsonWriterClass Class
 public class JsonWriterClass
 {
-    //Declared StreamWriter to write to a file
+    // Declared StreamWriter to write to a file
     StreamWriter JsonWriter;
     List<Token> TokenList;
 
-    //Constructor
+    /// <summary>
+    /// Create JsonWriterClass object, writing the JSON file from the FinalTokenList at the selected Filename
+    /// </summary>
+    /// <param name="Filename"></param>
+    /// <param name="FinalTokenList"></param>
     public JsonWriterClass(string Filename, List<Token> FinalTokenList)
     {
         JsonWriter = new StreamWriter(Filename, true);
@@ -18,9 +33,9 @@ public class JsonWriterClass
     }
 
     //WriteJsonFile Method
-    public void WriteJsonFile()
+    private void WriteJsonFile()
     {
-        try //In case of oopsies
+        try
         {
             if (TokenList.Count > 0) //Checks TokenList is empty
             {
@@ -30,7 +45,7 @@ public class JsonWriterClass
                 foreach (Token T in TokenList) //Loop to write each token to the file
                 {
                     JsonWriter.WriteLine("  \"Token_" + TokenCounter + "\": {");
-                    JsonWriter.WriteLine("    \"Type\": \"" + T.GetType() + "\",");
+                    JsonWriter.WriteLine("    \"Type\": \"" + T.GetTypeName() + "\",");
                     JsonWriter.WriteLine("    \"ID\": \"" + T.GetID() + "\",");
                     JsonWriter.WriteLine("    \"Value\": \"" + T.GetValue() + "\",");
                     if (TokenCounter == TokenList.Count - 1) JsonWriter.WriteLine("  }");
@@ -42,7 +57,7 @@ public class JsonWriterClass
             else throw new Exception("TokenList is empty");
         }
 
-        catch (Exception e) //Gotta catch those oopsies
+        catch (Exception e)
         { 
             Console.WriteLine("Error: " + e.Message); 
         }

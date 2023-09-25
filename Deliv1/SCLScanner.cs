@@ -1,9 +1,20 @@
-﻿using System;
+﻿/*
+ * Kennesaw State University
+ * College of Computer and Software Engineering
+ * Department of Computer Science
+ * CS 4308, Concepts of Programming Languages, Section W02
+ * Project 1st Deliverable
+ * Connor Bell, Dylan Carder, Sebastian Utz, Kevin Vu
+ * Program: SCLScanner.cs
+ * September 24, 2023
+*/
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-//SCLScanner Class
+// SCLScanner Class
 public class SCLScanner
 {
     /// <summary>
@@ -11,18 +22,29 @@ public class SCLScanner
     /// </summary>
     List<List<Token>> TokenDictionary;
 
+    /// <summary>
+    /// List of Token objects containing the final order of the tokens taken from the input file.
+    /// </summary>
     List<Token> FinalTokenList;
+
+    // Creates an SCLScanner object, getting initial tokens and creating an empty final list for tokenized output
     public SCLScanner()
     {
         TokenDictionary = FillInitialTokens();
         FinalTokenList = new List<Token>();
     }
 
+
+
+    /// <summary>
+    /// Calls FilterScan, checks if it generated a list, creates a JsonWriterClass object that writes the JSON file.
+    /// </summary>
+    /// <param name="Filepath"></param>
     public void Scan(string Filepath)
     {
         if (FilterScan(Filepath) == null)
         {
-            Console.WriteLine("FilteredList returned null REMOVE LATER");
+            Console.WriteLine("Error: FilterScan returned an empty list");
             return;
         }
 
@@ -33,12 +55,12 @@ public class SCLScanner
 
 
     /// <summary>
-    /// Returns false if token is not added to FinalTokenList
+    /// Returns false if string Value is not added to FinalTokenList as a token
     /// </summary>
     /// <param name="Value"></param>
     public bool CheckNormalToken(string Value)
     {
-        //Identifies if current token is in a token category
+        //Identifies if current token is in any token category
         if (ContainsValue(Value))
         {
             if (ContainsValue("keyword", Value))
@@ -66,10 +88,11 @@ public class SCLScanner
                 FinalTokenList.Add(GetToken("literal", Value));
             }
             return true;
-            //need to add ability to look and see what type it is, whether digit or 
         }
         else return false;
     }
+
+
 
     /// <summary>
     /// Checks SCL operator and returns what it is
@@ -93,18 +116,21 @@ public class SCLScanner
     }
 
 
-    /// <summary>
-    /// Filters File, returns a complete list of the list of the tokens
-    /// </summary>
-    /// <param name="fileName"></param>
-    /// <returns></returns>
-    /// 
 
+    /// <summary>
+    /// Adds the EndOfStatement token to the FinalTokenList
+    /// </summary>
     public void AddEndOfStatementToken()
     {
         FinalTokenList.Add(GetToken("end_of_statement", "EOS"));
     }
 
+
+
+    /// <summary>
+    /// Adds the specified operator token using the Operator string
+    /// </summary>
+    /// <param name="Operator"></param>
     public void AddOperator(string Operator)
     {
         switch (Operator)
@@ -146,6 +172,13 @@ public class SCLScanner
         Console.WriteLine(FinalTokenList[FinalTokenList.Count - 1]);
     }
 
+
+
+    /// <summary>
+    /// Filters File, returns a complete list of the list of the tokens
+    /// </summary>
+    /// <param name="Filename"></param>
+    /// <returns></returns>
     public List<Token> FilterScan(string Filename)
     {
         try
@@ -157,18 +190,18 @@ public class SCLScanner
             //Loop until end of line
             while (!SCLFileReader.EndOfStream)
             {
-                LineNumber++;
-                //Read next line
+                //Read next line, add to LineNumber counter
                 string line = SCLFileReader.ReadLine();
+                LineNumber++;
 
-                //Filter out whitespace (works)
+                //Filter out whitespace
                 if (string.IsNullOrWhiteSpace(line) || string.IsNullOrEmpty(line))
                 {
                     continue;
                 }
                 line = line.Trim();
 
-                //Filter out comments (works)
+                //Filter out comments
                 if (line.Contains("/*")) Comment = true;
                 if (line.Contains("*/"))
                 {
@@ -177,7 +210,6 @@ public class SCLScanner
                 }
                 if (Comment) continue;
                 if (line.Contains("//")) line = line.Substring(0, line.IndexOf("//"));
-                //Console.WriteLine(line);
 
                 //Break string into potential tokens
                 string[] UnformattedSplitLine = line.Split(' ');
@@ -191,12 +223,13 @@ public class SCLScanner
                 //Validate potential tokens as tokens
                 for (int i = 0; i < SplitLine.Length; i++)
                 {
+                    //If string of the SplitLine is a normal token
                     if (CheckNormalToken(SplitLine[i]))
                     {
                         continue;
                     }
 
-                    //Filter out new literals (works)
+                    //Filter out new literals
                     else if (SplitLine[i].Contains("\""))
                     {
                         string Literal = SplitLine[i];
@@ -212,7 +245,8 @@ public class SCLScanner
                             {
                                 bool ContainsComma = false;
                                 i = j;
-                                if (SplitLine[j].Contains(","))
+                                //if (SplitLine[j].Contains(","))
+                                if (SplitLine[j][SplitLine[j].Length - 1].Equals(','))
                                 {
                                     Literal += " " + SplitLine[j].Substring(0, SplitLine[j].Length - 1);
                                     ContainsComma = true;
@@ -271,24 +305,30 @@ public class SCLScanner
                 }
                 AddEndOfStatementToken();
             }
+
+            //Prints to screen all newly created tokens form the SCL file
             for (int i = 0; i < FinalTokenList.Count; i++)
             {
                 Console.WriteLine("New Token Created: " + FinalTokenList[i]);
             }
             return FinalTokenList;
         }
+
         catch (FileNotFoundException) //If file is not valid
         {
             Console.WriteLine("No file or directory: " + Filename);
             Environment.Exit(2);
             return null;
         }
+
         catch (Exception E) //Error reporting
         {
             Console.WriteLine("Error: " + E);
             return null;
         }
     }
+
+
 
     /// <summary>
     /// Returns true if string is a float.
@@ -300,6 +340,8 @@ public class SCLScanner
         return float.TryParse(num, out _);
     }
 
+
+
     /// <summary>
     /// Returns true if string is an int.
     /// </summary>
@@ -310,8 +352,10 @@ public class SCLScanner
         return int.TryParse(num, out _);
     }
 
+
+
     /// <summary>
-    /// Gets the subdictionary of the specified string Type,
+    /// Gets the subdictionary list of the specified string Type,
     /// Types: keyword, operator, identifier, special_symbol, unknown_symbol, literal
     /// </summary>
     /// <param name="Type"></param>
@@ -340,6 +384,8 @@ public class SCLScanner
         }
     }
 
+
+
     /// <summary>
     /// Looks for token in TokenDictionary, if found returns true
     /// </summary>
@@ -360,6 +406,8 @@ public class SCLScanner
         }
         return false;
     }
+
+
 
     /// <summary>
     /// Looks for token in the token sublist, if found returns true;
@@ -383,6 +431,8 @@ public class SCLScanner
         return false;
     }
 
+
+
     /// <summary>
     /// Looks for token in the token sublist, if not found returns null,
     /// Types: keyword, operator, identifier, special_symbol, unknown_symbol, literal, end_of_statement
@@ -405,6 +455,8 @@ public class SCLScanner
         return null;
     }
 
+
+
     /// <summary>
     /// Returns token with specified id, null if not found
     /// </summary>
@@ -424,6 +476,8 @@ public class SCLScanner
         }
         return null;
     }
+
+
 
     /// <summary>
     /// Returns a filled List dictionary of token objects.
@@ -481,6 +535,12 @@ public class SCLScanner
         Keywords.Add(new Token("keyword", "to", 37));
         Keywords.Add(new Token("keyword", "do", 38));
         Keywords.Add(new Token("keyword", "endfor", 39));
+        Keywords.Add(new Token("keyword", "if", 40));
+        Keywords.Add(new Token("keyword", "then", 41));
+        Keywords.Add(new Token("keyword", "endif", 42));
+        Keywords.Add(new Token("keyword", "greater", 43));
+        Keywords.Add(new Token("keyword", "or", 44));
+        Keywords.Add(new Token("keyword", "equal", 45));
 
         Operators.Add(new Token("operator", "+", 400));
         Operators.Add(new Token("operator", "-", 401));

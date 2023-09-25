@@ -1,9 +1,24 @@
-﻿using System;
+﻿/*
+ * Kennesaw State University
+ * College of Computer and Software Engineering
+ * Department of Computer Science
+ * CS 4308, Concepts of Programming Languages, Section W02
+ * Project 1st Deliverable
+ * Connor Bell, Dylan Carder, Sebastian Utz, Kevin Vu
+ * Program: TokenClass.cs
+ * September 24, 2023
+*/
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 
+/// <summary>
+/// Stores the generated tokens in a string Type, string Value, int ID format
+/// </summary>
 public class Token
 {
+    //Declared variables to store Token object values
     string Type, Value;
     int ID;
     static int IDCounter = 100;
@@ -21,6 +36,8 @@ public class Token
         this.Value = Value;
     }
 
+
+
     /// <summary>
     /// Builds new token of specified Type and Value
     /// </summary>
@@ -33,6 +50,8 @@ public class Token
         this.ID = IDCounter++;
     }
 
+
+
     /// <summary>
     /// Returns integer ID of the Token object
     /// </summary>
@@ -41,6 +60,8 @@ public class Token
     {
         return ID;
     }
+
+
 
     /// <summary>
     /// Returns string Value of the Token object
@@ -51,6 +72,8 @@ public class Token
         return Value;
     }
 
+
+
     /// <summary>
     /// Returns string Type of the Token object
     /// </summary>
@@ -60,6 +83,12 @@ public class Token
         return Type;
     }
 
+
+
+    /// <summary>
+    /// Returns a formatted string of the Token object
+    /// </summary>
+    /// <returns></returns>
     public override string ToString()
     {
         return "['" + Type + "', " + ID + ", '" + Value.Trim() + "']";
