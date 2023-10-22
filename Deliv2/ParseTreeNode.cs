@@ -1,4 +1,14 @@
-﻿using System;
+﻿/*
+ * Kennesaw State University
+ * College of Computer and Software Engineering
+ * Department of Computer Science
+ * CS 4308, Concepts of Programming Languages, Section W02
+ * Project 2nd Deliverable
+ * Connor Bell, Dylan Carder, Sebastian Utz, Kevin Vu
+ * Program: ParseTreeNode.cs
+ * October 22, 2023
+*/
+using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
 

@@ -22,18 +22,27 @@ public class Scanner
     /// </summary>
     List<List<Token>> TokenDictionary;
 
+
     /// <summary>
     /// List of Token objects containing the final order of the tokens taken from the input file.
     /// </summary>
     List<Token> FinalTokenList;
 
-    // Creates an SCLScanner object, getting initial tokens and creating an empty final list for tokenized output
+
+    /// <summary>
+    /// Keeps track of which line is being scanned
+    /// </summary>
+    int LineNumber = 0;
+
+
+    /// <summary>
+    /// Creates an SCLScanner object, getting initial tokens and creating an empty final list for tokenized output
+    /// </summary>
     public Scanner()
     {
         TokenDictionary = FillInitialTokens();
         FinalTokenList = new List<Token>();
     }
-
 
 
     /// <summary>
@@ -42,18 +51,9 @@ public class Scanner
     /// <param name="Filepath"></param>
     public List<Token> Scan(string Filepath)
     {
-        if (FilterScan(Filepath) == null)
-        {
-            Console.WriteLine("Error: FilterScan returned an empty list");
-            return null;
-        }
-        else
-        {
-            return FinalTokenList;
-        }
-        //USE THE FinalTokenList list to parse
+        if (FilterScan(Filepath) == null) throw new Exception("FilterScan() returned an empty list");
+        return FinalTokenList;
     }
-
 
 
     /// <summary>
@@ -67,38 +67,37 @@ public class Scanner
         {
             if (ContainsValue("keyword", Value))
             {
-                FinalTokenList.Add(GetToken("keyword", Value));
+                FinalTokenList.Add(new Token(GetToken("keyword", Value), LineNumber));
             }
             else if (ContainsValue("identifier", Value))
             {
-                FinalTokenList.Add(GetToken("identifier", Value));
+                FinalTokenList.Add(new Token(GetToken("identifier", Value), LineNumber));
             }
             else if (ContainsValue("operator", Value))
             {
-                FinalTokenList.Add(GetToken("operator", Value));
+                FinalTokenList.Add(new Token(GetToken("operator", Value), LineNumber));
             }
             else if (ContainsValue("special_symbol", Value))
             {
-                FinalTokenList.Add(GetToken("special_symbol", Value));
+                FinalTokenList.Add(new Token(GetToken("special_symbol", Value), LineNumber));
             }
-            else if (ContainsValue("unknown_symbol", Value))
+            else if (ContainsValue("type", Value))
             {
-                FinalTokenList.Add(GetToken("unknown_symbol", Value));
+                FinalTokenList.Add(new Token(GetToken("type", Value), LineNumber));
             }
             else if (ContainsValue("literal", Value))
             {
-                FinalTokenList.Add(GetToken("literal", Value));
+                FinalTokenList.Add(new Token(GetToken("literal", Value), LineNumber));
             }
             return true;
         }
         else if (IsInt(Value) || IsFloat(Value)) //a constant is a constant, not a general custom token
         {
-            FinalTokenList.Add(new Token("constant", "" + Value));
+            FinalTokenList.Add(new Token(new Token("constant", Value), LineNumber));
             return true;
         }
         else return false;
     }
-
 
 
     /// <summary>
@@ -123,15 +122,13 @@ public class Scanner
     }
 
 
-
     /// <summary>
     /// Adds the EndOfStatement token to the FinalTokenList
     /// </summary>
     public void AddEndOfStatementToken()
     {
-        FinalTokenList.Add(GetToken("end_of_statement", "EOS"));
+        FinalTokenList.Add(new Token(GetToken("end_of_statement", "EOS"), LineNumber));
     }
-
 
 
     /// <summary>
@@ -143,42 +140,41 @@ public class Scanner
         switch (Operator)
         {
             case " +":
-                FinalTokenList.Add(GetToken("operator", 400));
+                FinalTokenList.Add(new Token(GetToken("operator", 400), LineNumber));
                 break;
             case " -":
-                FinalTokenList.Add(GetToken("operator", 401));
+                FinalTokenList.Add(new Token(GetToken("operator", 401), LineNumber));
                 break;
             case " *":
-                FinalTokenList.Add(GetToken("operator", 402));
+                FinalTokenList.Add(new Token(GetToken("operator", 402), LineNumber));
                 break;
             case " /":
-                FinalTokenList.Add(GetToken("operator", 403));
+                FinalTokenList.Add(new Token(GetToken("operator", 403), LineNumber));
                 break;
             case " ^":
-                FinalTokenList.Add(GetToken("operator", 404));
+                FinalTokenList.Add(new Token(GetToken("operator", 404), LineNumber));
                 break;
             case " >":
-                FinalTokenList.Add(GetToken("operator", 405));
+                FinalTokenList.Add(new Token(GetToken("operator", 405), LineNumber));
                 break;
             case " <":
-                FinalTokenList.Add(GetToken("operator", 406));
+                FinalTokenList.Add(new Token(GetToken("operator", 406), LineNumber));
                 break;
             case " =":
-                FinalTokenList.Add(GetToken("operator", 408));
+                FinalTokenList.Add(new Token(GetToken("operator", 408), LineNumber));
                 break;
             case "add":
-                FinalTokenList.Add(GetToken("operator", 409));
+                FinalTokenList.Add(new Token(GetToken("operator", 409), LineNumber));
                 break;
             case "<=":
-                FinalTokenList.Add(GetToken("operator", 410));
+                FinalTokenList.Add(new Token(GetToken("operator", 410), LineNumber));
                 break;
             case ">=":
-                FinalTokenList.Add(GetToken("operator", 411));
+                FinalTokenList.Add(new Token(GetToken("operator", 411), LineNumber));
                 break;
         }
         Console.WriteLine(FinalTokenList[FinalTokenList.Count - 1]);
     }
-
 
 
     /// <summary>
@@ -192,8 +188,6 @@ public class Scanner
         {
             StreamReader SCLFileReader = new StreamReader(Filename);
             bool Comment = false;
-
-            int LineNumber = 0;
             //Loop until end of line
             while (!SCLFileReader.EndOfStream)
             {
@@ -244,7 +238,7 @@ public class Scanner
                         {
                             Token NewLiteral = new Token("literal", SplitLine[i]);
                             TokenDictionary[5].Add(NewLiteral);
-                            FinalTokenList.Add(NewLiteral);
+                            FinalTokenList.Add(new Token(NewLiteral, LineNumber));
                         }
                         for (int j = i + 1; j < SplitLine.Length; j++)
                         {
@@ -252,7 +246,6 @@ public class Scanner
                             {
                                 bool ContainsComma = false;
                                 i = j;
-                                //if (SplitLine[j].Contains(","))
                                 if (SplitLine[j][SplitLine[j].Length - 1].Equals(','))
                                 {
                                     Literal += " " + SplitLine[j].Substring(0, SplitLine[j].Length - 1);
@@ -261,10 +254,10 @@ public class Scanner
                                 else Literal += " " + SplitLine[j];
                                 Token NewLiteral = new Token("literal", Literal);
                                 TokenDictionary[5].Add(NewLiteral);
-                                FinalTokenList.Add(NewLiteral);
+                                FinalTokenList.Add(new Token(NewLiteral, LineNumber));
                                 if (ContainsComma)
                                 {
-                                    FinalTokenList.Add(GetToken("special_symbol", ","));
+                                    FinalTokenList.Add(new Token(GetToken("special_symbol", ","), LineNumber));
                                     ContainsComma = false;
                                 }
                                 break;
@@ -273,7 +266,7 @@ public class Scanner
                         }
                     }
 
-                    //Filter out operators BESIDES add (checked in CheckNormalToken)
+                    //Filter out operators
                     else if (SplitLine[i].Contains("^") || SplitLine[i].Contains("<") || SplitLine[i].Contains(">") || SplitLine[i].Contains("*") || SplitLine[i].Contains("/") || SplitLine[i].Contains("+") || SplitLine[i].Contains("-") || SplitLine[i].Contains("="))
                     {
                         if (SplitLine[i].Length > 1)
@@ -284,7 +277,7 @@ public class Scanner
                             {
                                 Token NewToken = new Token("identifier", Before);
                                 TokenDictionary[1].Add(NewToken);
-                                FinalTokenList.Add(NewToken);
+                                FinalTokenList.Add(new Token(NewToken, LineNumber));
                             }
                             if (CheckWhichOperator(SplitLine[i]).Length == 1) AddOperator(CheckWhichOperator(SplitLine[i]));//CheckNormalToken(" " + CheckWhichOperator(SplitLine[i]));
                             else CheckNormalToken(CheckWhichOperator(SplitLine[i]));
@@ -293,12 +286,12 @@ public class Scanner
                             {
                                 Token NewToken = new Token("identifier", After);
                                 TokenDictionary[1].Add(NewToken);
-                                FinalTokenList.Add(NewToken);
+                                FinalTokenList.Add(new Token(NewToken, LineNumber));
                             }
                         }
                         else
                         {
-                            FinalTokenList.Add(GetToken("operator", SplitLine[i]));
+                            FinalTokenList.Add(new Token(GetToken("operator", SplitLine[i]), LineNumber));
                         }
                     }
 
@@ -307,13 +300,15 @@ public class Scanner
                     {
                         Token NewToken = new Token("identifier", SplitLine[i]);
                         TokenDictionary[1].Add(NewToken);
-                        FinalTokenList.Add(NewToken);
+                        FinalTokenList.Add(new Token(NewToken, LineNumber));
                     }
                 }
                 AddEndOfStatementToken();
             }
 
             //Prints to screen all newly created tokens form the SCL file
+            //COMMENTS: part of original scanner implementation
+            //COMMENTS: not needed in recent deliverables
             /*for (int i = 0; i < FinalTokenList.Count; i++)
             {
                 Console.WriteLine("New Token Created: " + FinalTokenList[i]);
@@ -325,7 +320,6 @@ public class Scanner
         catch (FileNotFoundException) //If file is not valid
         {
             Console.WriteLine("No file or directory: " + Filename);
-            Environment.Exit(2);
             return null;
         }
 
@@ -335,7 +329,6 @@ public class Scanner
             return null;
         }
     }
-
 
 
     /// <summary>
@@ -349,7 +342,6 @@ public class Scanner
     }
 
 
-
     /// <summary>
     /// Returns true if string is an int.
     /// </summary>
@@ -361,10 +353,9 @@ public class Scanner
     }
 
 
-
     /// <summary>
     /// Gets the subdictionary list of the specified string Type,
-    /// Types: keyword, operator, identifier, special_symbol, unknown_symbol, literal
+    /// Types: keyword, operator, identifier, special_symbol, type, literal
     /// </summary>
     /// <param name="Type"></param>
     /// <returns></returns>
@@ -381,7 +372,7 @@ public class Scanner
                 return TokenDictionary[2];
             case "special_symbol":
                 return TokenDictionary[3];
-            case "unknown_symbol":
+            case "type":
                 return TokenDictionary[4];
             case "literal":
                 return TokenDictionary[5];
@@ -393,7 +384,6 @@ public class Scanner
                 throw new Exception("Looked for dictionary that does not exist");
         }
     }
-
 
 
     /// <summary>
@@ -416,7 +406,6 @@ public class Scanner
         }
         return false;
     }
-
 
 
     /// <summary>
@@ -442,7 +431,6 @@ public class Scanner
     }
 
 
-
     /// <summary>
     /// Looks for token in the token sublist, if not found returns null,
     /// Types: keyword, operator, identifier, special_symbol, unknown_symbol, literal, end_of_statement
@@ -466,7 +454,6 @@ public class Scanner
     }
 
 
-
     /// <summary>
     /// Returns token with specified id, null if not found
     /// </summary>
@@ -486,7 +473,6 @@ public class Scanner
         }
         return null;
     }
-
 
 
     /// <summary>

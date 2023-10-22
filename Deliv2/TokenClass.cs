@@ -21,6 +21,7 @@ public class Token
     //Declared variables to store Token object values
     string Type, Value;
     int ID;
+    int? LineNum;
     static int IDCounter = 101;
 
     /// <summary>
@@ -48,6 +49,36 @@ public class Token
         this.Type = Type;
         this.Value = Value;
         this.ID = IDCounter++;
+    }
+
+
+
+    /// <summary>
+    /// Creates token object with line number
+    /// </summary>
+    /// <param name="OriginalToken"></param>
+    /// <param name="LineNum"></param>
+    public Token(int ID, string Value, string Type, int LineNum)
+    {
+        this.LineNum = LineNum;
+        this.ID = ID;
+        this.Value = Value;
+        this.Type = Type;
+    }
+
+
+
+    /// <summary>
+    /// Creates token object from a token objecct with line number
+    /// </summary>
+    /// <param name="OriginalToken"></param>
+    /// <param name="LineNum"></param>
+    public Token(Token OriginalToken, int LineNum)
+    {
+        this.LineNum = LineNum;
+        this.ID = OriginalToken.GetID();
+        this.Value = OriginalToken.GetValue();
+        this.Type = OriginalToken.GetTypeName();
     }
 
 
@@ -85,6 +116,15 @@ public class Token
 
 
 
+    //
+    public int GetLineNum()
+    {
+        if (LineNum != null)
+        {
+            return (int)LineNum;
+        }
+        else throw new Exception("line num not initialized");
+    }
     /// <summary>
     /// Returns a formatted string of the Token object
     /// </summary>

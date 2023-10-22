@@ -1,4 +1,4 @@
-/*
+﻿/*
  * Kennesaw State University
  * College of Computer and Software Engineering
  * Department of Computer Science

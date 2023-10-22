@@ -1,0 +1,11 @@
+int testFunc
+	int a
+	a = a + 2
+	print a
+	int b
+	b = 5
+	nah
+	b = b + 4
+	print b
+void main
+	testFunc

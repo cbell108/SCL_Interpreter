@@ -1,4 +1,14 @@
-﻿using System;
+﻿/*
+ * Kennesaw State University
+ * College of Computer and Software Engineering
+ * Department of Computer Science
+ * CS 4308, Concepts of Programming Languages, Section W02
+ * Project 2nd Deliverable
+ * Connor Bell, Dylan Carder, Sebastian Utz, Kevin Vu
+ * Program: Parser.cs
+ * October 22, 2023
+*/
+using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
 
@@ -83,10 +93,14 @@ class Parser
     /// <returns></returns>
     public ParseTreeNode Start()
     {
-        ParseTreeNode startNode = new ParseTreeNode("start");
-        ParseTreeNode functionNode = ParseFunction();
-        startNode.AddChild(functionNode);
-        return startNode;
+        Console.WriteLine("Entering <start>");
+
+        ParseTreeNode StartNode = new ParseTreeNode("start");
+        StartNode.AddChild(ParseFunction());
+
+        Console.WriteLine("Exiting <start>");
+
+        return StartNode;
     }
 
 
@@ -96,30 +110,30 @@ class Parser
     /// <returns></returns>
     public ParseTreeNode ParseFunction()
     {
+        Console.WriteLine("Entering <function>");
+
         ParseTreeNode FunctionNode = new ParseTreeNode("function");
 
-        //Parse RHS type IDENTIFIER parameter ENDLINE expression
+        //Parse RHS type identifier parameter ENDLINE expression
         if (MatchTokenType("type"))
         {
             FunctionNode.AddChild(ParseType()); // Parse type
-            ParseTreeNode Ident = new ParseTreeNode("identifier");
-            Ident.AddChild(ConsumeToken()); // Parse identifier
-            FunctionNode.AddChild(Ident);
+            FunctionNode.AddChild(ParseIdentifier()); // Parse identifier
             FunctionNode.AddChild(ParseParameter()); // Parse parameter
-            FunctionNode.AddChild(new ParseTreeNode(new Token("end_of_statement", "EOS", 1000))); // Parse ENDLINE
+            FunctionNode.AddChild(ParseEndline()); // Parse ENDLINE
             FunctionNode.AddChild(ParseExpression()); // Parse expression
         }
-        // Parse RHS ENDLINE
+        // Parse RHS (left blank)
         else if (MatchTokenType("end_of_statement"))
         {
-            FunctionNode.AddChild(new ParseTreeNode(new Token("end_of_statement", "EOS", 1000)));
+            //if function becomes (left blank)
         }
-        //Error
         else
         {
-            Console.WriteLine("Error: No valid Right-Hand-Side detected.");
+            //if function becomes nothing, without next token being EOS
         }
 
+        Console.WriteLine("Exiting <function>");
         return FunctionNode;
     }
 
@@ -130,23 +144,30 @@ class Parser
     /// <returns></returns>
     public ParseTreeNode ParseParameter()
     {
+        Console.WriteLine("Entering <parameter>");
+
         ParseTreeNode parameterNode = new ParseTreeNode("parameter");
 
+        //Parse RHS parameter parameter
         if (MatchTokenType("type") && MatchTokenType("identifier", 1) && MatchTokenType("type", 2) && MatchTokenType("identifier", 3))
         {
-            parameterNode.AddChild(ParseParameter());
-            parameterNode.AddChild(ConsumeToken());
+            parameterNode.AddChild(ParseType()); // Parse the type
+            parameterNode.AddChild(ParseIdentifier()); // Parse the identifier
+            parameterNode.AddChild(ParseParameter()); // parse the remaining parameter
         }
-        // Parse 'type' non-terminal
+        // Parse RHS type IDENTIFIER
         else if (MatchTokenType("type"))
         {
             parameterNode.AddChild(ParseType()); // Parse the type
-            parameterNode.AddChild(ConsumeToken()); //Parse the identifier
+            parameterNode.AddChild(ParseIdentifier()); //Parse the identifier
         }
+        // Parse RHS (left blank)
         else if (MatchTokenType("end_of_statement"))
         {
-            ConsumeToken();
+            // Parse the (left blank)
         }
+
+        Console.WriteLine("Exiting <parameter>");
 
         return parameterNode;
     }
@@ -158,17 +179,18 @@ class Parser
     /// <returns></returns>
     public ParseTreeNode ParseType()
     {
+        Console.WriteLine("Entering <type>");
+
         ParseTreeNode TypeNode = new ParseTreeNode("type");
-        // Expect a 'type' token
-        if (MatchTokenType("type"))
+
+        if (!MatchTokenType("type"))
         {
-            TypeNode.AddChild(ConsumeToken());
+            throw new Exception("invalid type at line " + Tokens[CurrentTokenIndex].GetLineNum() + ".");
         }
-        else
-        {
-            Console.WriteLine("Error: Expected a type.\nPrevious Token: " + Tokens[CurrentTokenIndex - 1] + "\n Current Token: " + Tokens[CurrentTokenIndex] + "\n  Next Token: " + Tokens[CurrentTokenIndex + 1]);
-            return new ParseTreeNode("Invalid_Parse_in_Type_Method");
-        }
+        TypeNode.AddChild(GetNextToken());
+
+        Console.WriteLine("Exiting <type>");
+
         return TypeNode;
     }
 
@@ -179,44 +201,24 @@ class Parser
     /// <returns></returns>
     public ParseTreeNode ParseExpression()
     {
+        Console.WriteLine("Entering <expression>");
+
         ParseTreeNode ExpressionNode = new ParseTreeNode("expression");
 
-        // Parse RHS type IDENTIFIER ENDLINE expression
+        // Parse RHS type identifier ENDLINE expression
         if (MatchTokenType("type") && MatchTokenType("identifier", 1))
         {
-            //Console.WriteLine("Expression -> type called");
             ExpressionNode.AddChild(ParseType()); // Parse the type
-            ParseTreeNode Ident = new ParseTreeNode("identifier");
-            Ident.AddChild(ConsumeToken()); // Parse the identifier
-            ExpressionNode.AddChild(Ident);
-            ExpressionNode.AddChild(ConsumeToken()); // Parse the ENDLINE
+            ExpressionNode.AddChild(ParseIdentifier()); // Parse the identifier
+            ExpressionNode.AddChild(ParseEndline()); // Parse the ENDLINE
             ExpressionNode.AddChild(ParseExpression()); //Parse the expression
         }
-        // Parse RHS IDENTIFIER = expression
+        // Parse RHS IDENTIFIER operator returnable expression
         else if (MatchTokenType("identifier") && MatchTokenType("operator", 1))
         {
-            ParseTreeNode Ident = new ParseTreeNode("identifier");
-            Ident.AddChild(ConsumeToken()); // Parse the identifier
-            ExpressionNode.AddChild(Ident);
-            ParseTreeNode Oper = new ParseTreeNode("operator");
-            Oper.AddChild(ConsumeToken()); // Parse the operator
-            ExpressionNode.AddChild(Oper);
-            ExpressionNode.AddChild(ParseExpression()); // Parse the expression
-        }
-        // Parse RHS IDENTIFIER expression
-        else if (MatchTokenType("identifier"))
-        {
-            ParseTreeNode Ident = new ParseTreeNode("identifier");
-            Ident.AddChild(ConsumeToken()); // Parse the identifier
-            ExpressionNode.AddChild(Ident);
-            ExpressionNode.AddChild(ParseExpression()); // Parse the expression
-        }
-        // Parse RHS CONSTANT expression
-        else if (MatchTokenType("constant"))
-        {
-            ParseTreeNode Const = new ParseTreeNode("constant");
-            Const.AddChild(ConsumeToken()); // Parse the constant
-            ExpressionNode.AddChild(Const);
+            ExpressionNode.AddChild(ParseIdentifier()); // Parse the identifier
+            ExpressionNode.AddChild(ParseOperator()); // Parse the operator
+            ExpressionNode.AddChild(ParseReturnable()); // Parse the returnable
             ExpressionNode.AddChild(ParseExpression()); // Parse the expression
         }
         // Parse RHSs...
@@ -225,31 +227,119 @@ class Parser
             // PRINT returnable expression
             if (Tokens[CurrentTokenIndex].GetValue() == "print")
             {
-                ExpressionNode.AddChild(ConsumeToken());
-                ExpressionNode.AddChild(ParseReturnable());
-                ExpressionNode.AddChild(ParseExpression());
+                ExpressionNode.AddChild(GetNextToken()); // Parse the print
+                ExpressionNode.AddChild(ParseReturnable()); // Parse the returnable
+                ExpressionNode.AddChild(ParseExpression()); // Parse the expression
             }
-            // RETURN returnable expression
+            // RETURN returnable ENDLINE expression
             else if (Tokens[CurrentTokenIndex].GetValue() == "return")
             {
-                ExpressionNode.AddChild(ConsumeToken());
-                ExpressionNode.AddChild(ParseReturnable());
-                ExpressionNode.AddChild(new ParseTreeNode(new Token("end_of_statement", "EOS", 1000)));
-                ExpressionNode.AddChild(ParseExpression());
+                ExpressionNode.AddChild(GetNextToken()); // Parse the return
+                ExpressionNode.AddChild(ParseReturnable()); // Parse the returnable
+                ExpressionNode.AddChild(ParseEndline()); // Parse the ENDLINE
+                ExpressionNode.AddChild(ParseFunction()); // Parse the function
             }
         }
         // Parse RHS ENDLINE expression
         else if (MatchTokenType("end_of_statement"))
         {
-            ExpressionNode.AddChild(ConsumeToken());
-            ExpressionNode.AddChild(ParseExpression());
+            ExpressionNode.AddChild(ParseEndline()); // Parse the ENDLINE
+            ExpressionNode.AddChild(ParseExpression()); // Parse the expression
         }
         // Parse RHS (left blank)
         else
         {
+            if (Tokens[CurrentTokenIndex] != null)
+            {
+                throw new Exception("invalid syntax at line " + Tokens[CurrentTokenIndex].GetLineNum() + ".");
+            }
             //If expression becomes nothing
         }
+
+        Console.WriteLine("Exiting <expression>");
+
         return ExpressionNode;
+    }
+
+
+    /// <summary>
+    /// Parse the identifier non-terminal
+    /// </summary>
+    /// <returns></returns>
+    private ParseTreeNode ParseIdentifier()
+    {
+        Console.WriteLine("Entering <identifier>");
+
+        ParseTreeNode IdentNode = new ParseTreeNode("identifier");
+
+        if (!MatchTokenType("identifier"))
+        {
+            throw new Exception("invalid identifier at line " + Tokens[CurrentTokenIndex].GetLineNum() + ".");
+        }
+        IdentNode.AddChild(GetNextToken()); // Parse the identifier
+
+        Console.WriteLine("Exiting <identifier>");
+        return IdentNode;
+    }
+
+
+    /// <summary>
+    /// Parse the constant non-terminal
+    /// </summary>
+    /// <returns></returns>
+    private ParseTreeNode ParseConstant()
+    {
+        Console.WriteLine("Entering <constant>");
+
+        ParseTreeNode ConstNode = new ParseTreeNode("constant");
+
+        if (!MatchTokenType("constant"))
+        {
+            throw new Exception("invalid constant at line " + Tokens[CurrentTokenIndex].GetLineNum() + ".");
+        }
+        ConstNode.AddChild(GetNextToken()); // Parse the constant
+
+        Console.WriteLine("Exiting <constant>");
+
+        return ConstNode;
+    }
+
+
+    /// <summary>
+    /// Parse the constant non-terminal
+    /// </summary>
+    /// <returns></returns>
+    private ParseTreeNode ParseOperator()
+    {
+        Console.WriteLine("Entering <operator>");
+
+        ParseTreeNode OperNode = new ParseTreeNode("operator");
+
+        if (!MatchTokenType("operator"))
+        {
+            throw new Exception("invalid operator at line " + Tokens[CurrentTokenIndex].GetLineNum() + ".");
+        }
+        OperNode.AddChild(GetNextToken()); // Parse the operator
+
+        Console.WriteLine("Exiting <operator>");
+
+        return OperNode;
+    }
+
+
+    // Parse the endline terminal
+    private ParseTreeNode ParseEndline()
+    {
+        Console.WriteLine("Entering <endline>");
+
+        if (!MatchTokenType("end_of_statement"))
+        {
+            throw new Exception("invalid syntax at line " + Tokens[CurrentTokenIndex].GetLineNum() + ".");
+        }
+
+        Console.WriteLine("Exiting <endline>");
+
+        return GetNextToken(); // Parse the ENDLINE
     }
 
 
@@ -259,43 +349,57 @@ class Parser
     /// <returns></returns>
     private ParseTreeNode ParseReturnable()
     {
+        Console.WriteLine("Entering <returnable>");
+
         ParseTreeNode ReturnableNode = new ParseTreeNode("returnable");
-        // Parse RHS identifier
-        if (MatchTokenType("identifier"))
+        // Parse RHS (left blank) version 1
+        if (MatchTokenType("identifier") && MatchTokenType("operator", 1))
         {
-            ParseTreeNode Ident = new ParseTreeNode("identifier");
-            Ident.AddChild(ConsumeToken()); // Parse the identifier
-            ReturnableNode.AddChild(Ident);
+            //if returnable becomes nothing, following is expression
+        }
+        // Parse RHS identifier
+        else if (MatchTokenType("identifier"))
+        {
+            ReturnableNode.AddChild(ParseIdentifier());
         }
         // Parse RHS constant
         else if (MatchTokenType("constant"))
         {
-            ParseTreeNode Const = new ParseTreeNode("constant");
-            Const.AddChild(ConsumeToken()); // Parse the constant
-            ReturnableNode.AddChild(Const);
+            ReturnableNode.AddChild(ParseConstant());
         }
-        // Parse RHS (left blank)
+        // Parse RHS (left blank) version 2
         else if (MatchTokenType("end_of_statement"))
         {
-            ConsumeToken();
             //if returnable becomes nothing
         }
         // No valid RHS detected
         else
         {
-            Console.WriteLine("Error: expected a returnable token.");
+            throw new Exception("expected a returnable token at line " + Tokens[CurrentTokenIndex].GetLineNum() + ".");
         }
+
+        Console.WriteLine("Exiting <returnable>");
+
         return ReturnableNode;
     }
-    
+
 
     /// <summary>
     /// Begins parser, displays preorder traversal
     /// </summary>
     public void Begin()
     {
-        ParseTreeNode ParseTree = Start(); // Generate parse tree
-        Display(ParseTree); // Display the parse tree
+        try
+        {
+            Console.WriteLine("Beginning parse of specified file");
+            ParseTreeNode ParseTree = Start(); // Generate parse tree
+            Console.WriteLine();
+            Display(ParseTree); // Display the parse tree
+        }
+        catch (Exception E)
+        {
+            Console.WriteLine("Error: " + E.Message);
+        }
     }
 
 
@@ -371,8 +475,9 @@ class Parser
     /// Consumes and returns the current token as ParseTreeNode object
     /// </summary>
     /// <returns></returns>
-    private ParseTreeNode ConsumeToken()
+    private ParseTreeNode GetNextToken()
     {
+        Console.WriteLine("Next token is: " + CurrentTokenIndex + " Next lexeme is " + Tokens[CurrentTokenIndex].GetValue() + "\n");
         ParseTreeNode CurrentNode = new ParseTreeNode(Tokens[CurrentTokenIndex]);
         CurrentTokenIndex++;
         return CurrentNode;
