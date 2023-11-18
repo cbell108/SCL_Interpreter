@@ -1,0 +1,17 @@
+/*
+ * Kennesaw State University
+ * College of Computer and Software Engineering
+ * Department of Computer Science
+ * CS 4308, Concepts of Programming Languages, Section W02
+ * Project 2nd Deliverable
+ * Connor Bell, Dylan Carder, Sebastian Utz, Kevin Vu
+ * Program: Test2.scl
+ * November 19, 2023
+*/
+void main
+	int x
+	x = 4
+	x = x + 2
+	x = x / 2
+	print x
+	return

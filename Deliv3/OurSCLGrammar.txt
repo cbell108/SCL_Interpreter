@@ -1,0 +1,33 @@
+	The BNF of our version of an SCL programming language.
+Created by Dylan Carder, refined by Connor Bell, Dylan Carder,
+Sebastian Utz, and Kevin vu.
+	In this version of BNF, instead of using epsilon to indicate
+the absence of a non-terminal, we decided on a (left blank) statement
+to allow for easier understanding. The non-terminals IDENTIFIER and
+ENDLINE represent identifier and end of statement tokens generated
+by the scanner and utilized by the parse program.
+	Last Updated: 11/08/2023
+_____________________________________________________________________
+
+
+start -> function
+function -> type identifier parameter ENDLINE expression
+	| (left blank)
+parameter -> type identifier
+	| parameter parameter
+	| (left blank)
+type -> INT | FLOAT | CHAR | VOID
+identifier -> (specified in program, a variable name)
+constant -> (specified in program, a numeric value)
+operator -> * | / | + | - | =
+expression -> type identifier ENDLINE expression
+	| returnable operator expression
+	| returnable ENDLINE expression
+	| PRINT returnable expression
+	| RETURN returnable ENDLINE function
+	| ENDLINE expression
+	| (left blank)
+returnable -> identifier
+	| constant
+	| literal
+	| (left blank)
