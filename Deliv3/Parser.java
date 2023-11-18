@@ -405,23 +405,15 @@ class Parser
     /** <summary>
     * Begins parser, displays preorder traversal
     * </summary> */
-    public ParseTreeNode Begin(List<Token> tokenList)
+    public ParseTreeNode Begin(List<Token> tokenList) throws Exception
     {
         tokens = tokenList;
         currentTokenIndex = 0;
-        try
-        {
-        	System.out.println("Beginning parse of specified file");
-            ParseTreeNode ParseTree = Start(); // Generate parse tree
-            System.out.println();
-            //Display(ParseTree); // Display the parse tree
-            return ParseTree;
-        }
-        catch (Exception E)
-        {
-        	System.out.println("Error: " + E.getMessage());
-        	return null;
-        }
+        System.out.println("Beginning parse of specified file");
+        ParseTreeNode ParseTree = Start(); // Generate parse tree
+        System.out.println();
+        //Display(ParseTree); // Display the parse tree
+        return ParseTree;
     }
 
 

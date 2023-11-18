@@ -45,8 +45,8 @@ public class MainClass
         		}
         		catch (Exception e) 
         		{ 
-        			System.out.println("\nFile path specified was invalid. Please try again."); 
-        			e.printStackTrace();
+        			System.out.println("\nError: " + e.getMessage()); 
+        			e.printStackTrace(); // used in testing
         		}
         	}
         }

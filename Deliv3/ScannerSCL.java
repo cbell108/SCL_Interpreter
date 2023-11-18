@@ -11,9 +11,8 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
+import java.lang.Exception;
 
 // Scanner Class
 public class ScannerSCL {
@@ -42,7 +41,7 @@ public class ScannerSCL {
      * Calls FilterScan, checks if it generated a list, creates a JsonWriterClass object that writes the JSON file.
      */
     public List<Token> Scan(String Filepath) throws Exception {
-        if (FilterScan(Filepath) == null) throw new Exception("FilterScan() returned an empty list");
+        if (FilterScan(Filepath) == null) throw new Exception("file path is invalid.");//throw new Exception("FilterScan() returned an empty list");
         return FinalTokenList;
     }
 
@@ -142,8 +141,8 @@ public class ScannerSCL {
     /**
      * Filters File, returns a complete list of the list of the tokens
      */
-    public List<Token> FilterScan(String Filename) {
-        try {
+    public List<Token> FilterScan(String Filename) throws Exception{
+    		LineNumber = 0;
             BufferedReader SCLFileReader = new BufferedReader(new FileReader(Filename));
             boolean Comment = false;
             // Loop until end of line
@@ -180,12 +179,15 @@ public class ScannerSCL {
                     // Filter out new literals
                     else if (SplitLine[i].contains("\"")) {
                         String Literal = SplitLine[i];
+                        System.out.println(Literal);
                         if ((Character.compare(SplitLine[i].charAt(0), '\"') == 0) && (Character.compare(SplitLine[i].charAt(SplitLine[i].length()-1), '\"') == 0)) {
                         //if (SplitLine[i].substring(0, 1).equals("\"") && SplitLine[i].substring(SplitLine[i].length() - 1, 1).equals("\"")) {
                             Token NewLiteral = new Token("literal", SplitLine[i]);
                             TokenDictionary.get(5).add(NewLiteral);
                             FinalTokenList.add(new Token(NewLiteral, LineNumber));
                         }
+                        //else if ((!(Character.compare(SplitLine[i].charAt(0), '\"') == 0) && (Character.compare(SplitLine[i].charAt(SplitLine[i].length()-1), '\"') == 0)) || ((Character.compare(SplitLine[i].charAt(0), '\"') == 0) && !(Character.compare(SplitLine[i].charAt(SplitLine[i].length()-1), '\"') == 0))) throw new Exception("invalid syntax at line " + LineNumber + ".");
+                        //else throw new Exception("invalid syntax at line " + LineNumber + ".");
                         for (int j = i + 1; j < SplitLine.length; j++) {
                             if (SplitLine[j].contains("\"")) {
                                 boolean ContainsComma = false;
@@ -244,14 +246,8 @@ public class ScannerSCL {
                 System.out.println("New Token Created: " + FinalTokenList.get(i));
             }
             System.out.println("End of New Tokens\n");
+            SCLFileReader.close();
             return FinalTokenList;
-        } catch (FileNotFoundException e) { // If file is not valid
-            System.out.println("No file or directory: " + Filename);
-            return null;
-        } catch (IOException e) { // Error reporting
-            System.out.println("Error: " + e);
-            return null;
-        }
     }
 
     /**
