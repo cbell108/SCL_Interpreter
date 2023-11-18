@@ -77,12 +77,12 @@ class Parser
     * </summary>
     * <returns></returns> */
     public ParseTreeNode Start() throws Exception {
-        System.out.println("Entering <start>");
+        //System.out.println("Entering <start>");
 
         ParseTreeNode startNode = new ParseTreeNode("start");
         startNode.AddChild(ParseFunction());
 
-        System.out.println("Exiting <start>");
+        //System.out.println("Exiting <start>");
 
         return startNode;
     }
@@ -93,7 +93,7 @@ class Parser
     * </summary>
     * <returns></returns> */
     public ParseTreeNode ParseFunction() throws Exception {
-        System.out.println("Entering <function>");
+        //System.out.println("Entering <function>");
 
         ParseTreeNode functionNode = new ParseTreeNode("function");
 
@@ -116,7 +116,7 @@ class Parser
             //if function becomes nothing, without next token being EOS
         }
 
-        System.out.println("Exiting <function>");
+        //System.out.println("Exiting <function>");
         return functionNode;
     }
 
@@ -126,7 +126,7 @@ class Parser
     * </summary>
     * <returns></returns> */
     public ParseTreeNode ParseParameter() throws Exception {
-    	System.out.println("Entering <parameter>");
+    	//System.out.println("Entering <parameter>");
 
         ParseTreeNode parameterNode = new ParseTreeNode("parameter");
 
@@ -149,7 +149,7 @@ class Parser
             // Parse the (left blank)
         }
 
-        System.out.println("Exiting <parameter>");
+        //System.out.println("Exiting <parameter>");
 
         return parameterNode;
     }
@@ -161,7 +161,7 @@ class Parser
     * <returns></returns> */
     public ParseTreeNode ParseType() throws Exception
     {
-    	System.out.println("Entering <type>");
+    	//System.out.println("Entering <type>");
 
         ParseTreeNode typeNode = new ParseTreeNode("type");
 
@@ -171,7 +171,7 @@ class Parser
         }
         typeNode.AddChild(GetNextToken());
 
-        System.out.println("Exiting <type>");
+        //System.out.println("Exiting <type>");
 
         return typeNode;
     }
@@ -182,7 +182,7 @@ class Parser
     * </summary>
     * <returns></returns> */
     public ParseTreeNode ParseExpression() throws Exception {
-    	System.out.println("Entering <expression>");
+    	//System.out.println("Entering <expression>");
 
         ParseTreeNode expressionNode = new ParseTreeNode("expression");
 
@@ -210,7 +210,7 @@ class Parser
         		expressionNode.AddChild(ParseExpression()); // Parse the expression
         	}
         	else {
-        		System.out.println(tokens.get(currentTokenIndex + 1));
+        		//System.out.println(tokens.get(currentTokenIndex + 1));
                 if (tokens.get(currentTokenIndex) != null)
                 {
                     throw new Exception("expr ret invalid syntax at line " + tokens.get(currentTokenIndex).getLineNum() + ".");
@@ -253,7 +253,7 @@ class Parser
             //If expression becomes nothing
         }
 
-        System.out.println("Exiting <expression>");
+        //System.out.println("Exiting <expression>");
 
         return expressionNode;
     }
@@ -264,7 +264,7 @@ class Parser
     * </summary>
     * <returns></returns> */
     private ParseTreeNode ParseIdentifier() throws Exception {
-    	System.out.println("Entering <identifier>");
+    	//System.out.println("Entering <identifier>");
 
         ParseTreeNode identNode = new ParseTreeNode("identifier");
 
@@ -274,7 +274,7 @@ class Parser
         }
         identNode.AddChild(GetNextToken()); // Parse the identifier
 
-        System.out.println("Exiting <identifier>");
+        //System.out.println("Exiting <identifier>");
         return identNode;
     }
 
@@ -284,7 +284,7 @@ class Parser
     * </summary>
     * <returns></returns> */
     private ParseTreeNode ParseConstant() throws Exception {
-    	System.out.println("Entering <constant>");
+    	//System.out.println("Entering <constant>");
 
         ParseTreeNode ConstNode = new ParseTreeNode("constant");
 
@@ -294,7 +294,7 @@ class Parser
         }
         ConstNode.AddChild(GetNextToken()); // Parse the constant
 
-        System.out.println("Exiting <constant>");
+        //System.out.println("Exiting <constant>");
 
         return ConstNode;
     }
@@ -305,7 +305,7 @@ class Parser
     * </summary>
     * <returns></returns> */
     private ParseTreeNode ParseOperator() throws Exception {
-    	System.out.println("Entering <operator>");
+    	//System.out.println("Entering <operator>");
 
         ParseTreeNode operNode = new ParseTreeNode("operator");
 
@@ -315,7 +315,7 @@ class Parser
         }
         operNode.AddChild(GetNextToken()); // Parse the operator
 
-        System.out.println("Exiting <operator>");
+        //System.out.println("Exiting <operator>");
 
         return operNode;
     }
@@ -326,14 +326,14 @@ class Parser
      *  </summary>
      *  <returns></returns> */
     private ParseTreeNode ParseEndline() throws Exception {
-    	System.out.println("Entering <endline>");
+    	//System.out.println("Entering <endline>");
 
         if (!MatchTokenType("end_of_statement"))
         {
             throw new Exception("invalid syntax at line " + tokens.get(currentTokenIndex).getLineNum() + ".");
         }
 
-        System.out.println("Exiting <endline>");
+        //System.out.println("Exiting <endline>");
 
         return GetNextToken(); // Parse the ENDLINE
     }
@@ -344,7 +344,7 @@ class Parser
      *  </summary>
      *  <returns></returns> */
     private ParseTreeNode ParseLiteral() throws Exception {
-    	System.out.println("Entering <literal>");
+    	//System.out.println("Entering <literal>");
 
     	ParseTreeNode litNode = new ParseTreeNode("literal");
     	if (!MatchTokenType("literal"))
@@ -353,7 +353,7 @@ class Parser
         }
         litNode.AddChild(GetNextToken()); // Parse the literal
         
-        System.out.println("Exiting <literal>");
+        //System.out.println("Exiting <literal>");
         return litNode; // Parse the ENDLINE
     }
 
@@ -362,15 +362,10 @@ class Parser
     * </summary>
     * <returns></returns> */
     private ParseTreeNode ParseReturnable() throws Exception {
-    	System.out.println("Entering <returnable>");
+    	//System.out.println("Entering <returnable>");
 
         ParseTreeNode returnableNode = new ParseTreeNode("returnable");
-        /*// Parse RHS (left blank) version 1
-        if (MatchTokenType("identifier") && MatchTokenType("operator", 1))
-        {
-            //if returnable becomes nothing, following is expression
-        }
-        // Parse RHS identifier*/
+        // Parse RHS identifier
         if (MatchTokenType("identifier"))
         {
             returnableNode.AddChild(ParseIdentifier());
@@ -396,7 +391,7 @@ class Parser
             throw new Exception("expected a returnable token at line " + tokens.get(currentTokenIndex).getLineNum() + ".");
         }
 
-        System.out.println("Exiting <returnable>");
+        //System.out.println("Exiting <returnable>");
 
         return returnableNode;
     }
@@ -409,9 +404,9 @@ class Parser
     {
         tokens = tokenList;
         currentTokenIndex = 0;
-        System.out.println("Beginning parse of specified file");
+        //System.out.println("Beginning parse of specified file");
         ParseTreeNode ParseTree = Start(); // Generate parse tree
-        System.out.println();
+        //System.out.println();
         //Display(ParseTree); // Display the parse tree
         return ParseTree;
     }
@@ -491,7 +486,7 @@ class Parser
     * <returns></returns> */
     private ParseTreeNode GetNextToken()
     {
-    	System.out.println("Next token is: " + currentTokenIndex + " Next lexeme is " + tokens.get(currentTokenIndex).getValue() + "\n");
+    	//System.out.println("Next token is: " + currentTokenIndex + " Next lexeme is " + tokens.get(currentTokenIndex).getValue() + "\n");
         ParseTreeNode CurrentNode = new ParseTreeNode(tokens.get(currentTokenIndex));
         currentTokenIndex++;
         return CurrentNode;

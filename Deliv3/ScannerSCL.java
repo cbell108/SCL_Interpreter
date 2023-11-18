@@ -179,7 +179,6 @@ public class ScannerSCL {
                     // Filter out new literals
                     else if (SplitLine[i].contains("\"")) {
                         String Literal = SplitLine[i];
-                        System.out.println(Literal);
                         if ((Character.compare(SplitLine[i].charAt(0), '\"') == 0) && (Character.compare(SplitLine[i].charAt(SplitLine[i].length()-1), '\"') == 0)) {
                         //if (SplitLine[i].substring(0, 1).equals("\"") && SplitLine[i].substring(SplitLine[i].length() - 1, 1).equals("\"")) {
                             Token NewLiteral = new Token("literal", SplitLine[i]);
@@ -241,11 +240,11 @@ public class ScannerSCL {
             // Prints to screen all newly created tokens form the SCL file
             // COMMENTS: part of original scanner implementation
             // COMMENTS: not needed in recent deliverables
-            for (int i = 0; i < FinalTokenList.size(); i++)
+            /*for (int i = 0; i < FinalTokenList.size(); i++)
             {
                 System.out.println("New Token Created: " + FinalTokenList.get(i));
             }
-            System.out.println("End of New Tokens\n");
+            System.out.println("End of New Tokens\n");*/
             SCLFileReader.close();
             return FinalTokenList;
     }
