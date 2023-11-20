@@ -1,0 +1,26 @@
+/*
+ * Kennesaw State University
+ * College of Computer and Software Engineering
+ * Department of Computer Science
+ * CS 4308, Concepts of Programming Languages, Section W02
+ * Project 2nd Deliverable
+ * Connor Bell, Dylan Carder, Sebastian Utz, Kevin Vu
+ * Program: Test3.scl
+ * November 19, 2023
+*/
+void main
+	float y
+	y = 2.56
+	int z
+	z = 5 + 8 / 2 + 7
+	char x
+	x = "a"
+	print "y: "
+	print y
+	print "\nz: "
+	print z
+	print "\nx: "
+	print x
+	print "\nbcd\n"
+	print "Hello world!"
+	return
