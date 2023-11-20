@@ -1,0 +1,3 @@
+NOTE:
+Please run these x.class files using the Java compiler.
+Example: java MainClass Test.scl

@@ -1,0 +1,38 @@
+/*
+ * Kennesaw State University
+ * College of Computer and Software Engineering
+ * Department of Computer Science
+ * CS 4308, Concepts of Programming Languages, Section W02
+ * Project 3rd Deliverable
+ * Connor Bell, Dylan Carder, Sebastian Utz, Kevin Vu
+ * Program: Test4.scl
+ * November 19, 2023
+*/
+void main
+	int x
+	int y
+	int result
+	int userIn
+	print "Enter a value for x: "
+	x = getline
+	print "Enter a value for y: "
+	y = getline
+	print "What operation would you like to complete?\n"
+	print "(1) Add\n"
+	print "(2) Subtract\n"
+	print "(3) Multiply\n"
+	print "(4) Divide\n"
+	print "Your selection: "
+	userIn = getline
+	print "The result is "
+	if userIn = 1
+		result = x + y
+	if userIn = 2
+		result = x - y
+	if userIn = 3
+		result = x * y
+	if userIn = 4
+		result = x / y
+	print result
+	print "."
+	return
